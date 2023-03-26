@@ -1,9 +1,11 @@
 use diesel::sqlite::SqliteConnection;
 use diesel::prelude::*;
+use diesel_demo::*;
 use dotenv::dotenv;
 use std::env;
 
 pub mod models;
+pub mod schema;
 
 pub fn establish_connection() -> SqliteConnection {
     dotenv().ok();
@@ -14,5 +16,18 @@ pub fn establish_connection() -> SqliteConnection {
 }
 
 fn main() {
-    println!("Hello, world!");
+    use self::schema::posts::dsl::*;
+
+    let connection = &mut establish_connection();
+    let results = posts
+        .limit(5)
+        .load::<models::Post>(connection)
+        .expect("Error loading posts");
+
+    println!("Displaying {} posts", results.len());
+    for post in results {
+        println!("{}", post.title);
+        println!("----------\n");
+        println!("{}", post.body);
+    }
 }
