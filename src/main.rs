@@ -1,8 +1,8 @@
 use diesel::sqlite::SqliteConnection;
 use diesel::prelude::*;
-use diesel_demo::*;
 use dotenv::dotenv;
 use std::env;
+use crate::models::post::Post;
 
 pub mod models;
 pub mod schema;
@@ -21,7 +21,7 @@ fn main() {
     let connection = &mut establish_connection();
     let results = posts
         .limit(5)
-        .load::<models::Post>(connection)
+        .load::<Post>(connection)
         .expect("Error loading posts");
 
     println!("Displaying {} posts", results.len());

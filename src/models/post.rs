@@ -1,11 +1,11 @@
 use diesel::prelude::*;
-use chrono::{Datetime, Local};
+use chrono::{DateTime, Local};
 
 #[derive(Queryable)]
 pub struct Post {
     pub id: i32,
     pub title: String,
     pub body: String,
-    pub created_at: Datetime<Local>,
-    pub updated_at: Datetime<Local>,
+    pub created_at: DateTime<Local>,
+    pub updated_at: DateTime<Local>,
 }
